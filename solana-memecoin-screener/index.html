@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solana Memecoin Screener: Trending and New Tokens | Blix Trade</title>
+<meta name="description" content="Screen trending, new and boosted Solana memecoins from the terminal. Filter by liquidity, market cap, volume, age, price change and buyers, sort by...">
+<link rel="canonical" href="https://blixtrade.github.io/solana-memecoin-screener/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Blix Trade">
+<meta property="og:title" content="Solana Memecoin Screener: Trending and New Tokens | Blix Trade">
+<meta property="og:description" content="Screen trending, new and boosted Solana memecoins from the terminal. Filter by liquidity, market cap, volume, age, price change and buyers, sort by...">
+<meta property="og:url" content="https://blixtrade.github.io/solana-memecoin-screener/">
+<meta property="og:image" content="https://blixtrade.github.io/og/solana-memecoin-screener.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Solana Memecoin Screener: Trending and New Tokens | Blix Trade">
+<meta name="twitter:description" content="Screen trending, new and boosted Solana memecoins from the terminal. Filter by liquidity, market cap, volume, age, price change and buyers, sort by...">
+<meta name="twitter:image" content="https://blixtrade.github.io/og/solana-memecoin-screener.png">
+<meta name="theme-color" content="#0b0b14">
+<link rel="icon" href="/icon.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Solana Memecoin Screener", "description": "Screen trending, new and boosted Solana memecoins from the terminal. Filter by liquidity, market cap, volume, age, price change and buyers, sort by anything, and refresh on a loop.", "applicationCategory": "FinanceApplication", "operatingSystem": "Windows, macOS, Linux", "url": "https://blixtrade.github.io/solana-memecoin-screener/", "downloadUrl": "https://github.com/blixtrade/solana-memecoin-screener", "license": "https://opensource.org/licenses/MIT", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@type": "Organization", "name": "Blix Trade", "url": "https://github.com/blixtrade"}, "keywords": "Solana memecoin screener, token screener, DEX screener CLI, trending tokens, new pairs, pump.fun coins, crypto screener"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Which tokens can it screen?", "acceptedAnswer": {"@type": "Answer", "text": "Trending pools and newly created pools from GeckoTerminal, and boosted tokens from DexScreener."}}, {"@type": "Question", "name": "Can it keep refreshing?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. --watch reloads on an interval so it works as a live dashboard in your terminal."}}, {"@type": "Question", "name": "Do I need an API key?", "acceptedAnswer": {"@type": "Answer", "text": "No. Both data sources are free and public."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Blix Trade", "item": "https://blixtrade.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Solana Memecoin Screener", "item": "https://blixtrade.github.io/solana-memecoin-screener/"}]}</script>
+<style>
+:root{--bg:#0b0b14;--panel:#12121e;--line:#24243a;--text:#ececf4;--dim:#a2a2ba;--accent:#c9b6ff;--green:#14f195}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--accent)}
+a:hover{color:#fff}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+nav{border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:700;letter-spacing:.3px}
+.brand img{width:30px;height:30px;border-radius:8px}
+nav .links{display:flex;gap:18px;font-size:15px}
+nav .links a{color:var(--dim);text-decoration:none}
+nav .links a:hover{color:#fff}
+header.hero{padding:56px 0 28px}
+.kicker{color:var(--accent);font-weight:600;font-size:14px;letter-spacing:.6px;text-transform:uppercase;margin:0 0 10px}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.12;margin:0 0 16px;letter-spacing:-.5px}
+h2{font-size:24px;margin:44px 0 14px;letter-spacing:-.2px}
+h3{font-size:18px;margin:0 0 6px}
+.lede{font-size:19px;color:#cfcfe0;max-width:760px;margin:0}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0 0}
+.btn{display:inline-block;padding:11px 18px;border-radius:10px;text-decoration:none;font-weight:600;font-size:16px;border:1px solid var(--line);color:var(--text);background:var(--panel)}
+.btn:hover{border-color:var(--accent);color:#fff}
+.btn.go{background:var(--green);color:#06120c;border-color:var(--green)}
+.btn.go:hover{filter:brightness(1.08);color:#06120c}
+ul.facts{padding-left:20px;margin:0}
+ul.facts li{margin:0 0 8px}
+code{font:14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#1b1b2b;padding:2px 6px;border-radius:5px;color:#e4dcff}
+pre{background:#0f0f1a;border:1px solid var(--line);border-radius:12px;padding:16px;overflow-x:auto;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#d8d8e8;margin:0}
+pre code{background:none;padding:0;color:inherit;font:inherit}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;text-decoration:none;color:var(--text);display:block;min-width:0}
+a.card:hover{border-color:var(--accent)}
+.card p{color:var(--dim);margin:0;font-size:15px}
+.card .go{color:var(--green);font-weight:600;font-size:14px;margin-top:10px;display:block}
+.shot{width:100%;border-radius:12px;border:1px solid var(--line);display:block}
+figure{margin:0}
+figcaption{color:var(--dim);font-size:14px;margin-top:8px}
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 10px}
+summary{cursor:pointer;font-weight:600}
+details p{margin:10px 0 0;color:#cfcfe0}
+.cta{background:linear-gradient(135deg,#1a1430,#101826);border:1px solid #3a2f63;border-radius:16px;padding:26px;margin:48px 0 0}
+.cta h2{margin-top:0}
+.cta p{color:#cfcfe0;margin:0}
+.note{color:var(--dim);font-size:14px}
+footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 0 40px;color:var(--dim);font-size:14px}
+footer a{color:var(--dim)}
+@media (max-width:560px){nav .links a.hide-s{display:none}header.hero{padding-top:36px}body{font-size:16px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+<a class="brand" href="/"><img src="/icon.png" alt="" width="30" height="30">Blix Trade</a>
+<div class="links"><a href="/#tools">Tools</a><a class="hide-s" href="/solana-bubble-map/#demos">Live demo</a><a class="hide-s" href="https://github.com/blixtrade">GitHub</a><a href="https://blixvip.com/?utm_source=blixtrade-site&utm_medium=web&utm_campaign=nav">BLIX &rarr;</a></div>
+</div></nav>
+<header class="hero"><div class="wrap">
+<p class="kicker">Free and open source &middot; Node 22 &middot; no API key</p>
+<h1>Solana Memecoin Screener</h1>
+<p class="lede">Screen trending, new and boosted Solana memecoins from the terminal. Filter by liquidity, market cap, volume, age, price change and buyers, sort by anything, and refresh on a loop.</p>
+<div class="btns"><a class="btn" href="https://github.com/blixtrade/solana-memecoin-screener">View on GitHub</a><a class="btn go" href="https://blixvip.com/solana-memecoin-screener?utm_source=blixtrade-site&utm_medium=web&utm_campaign=solana-memecoin-screener">Use the live version on BLIX</a></div>
+</div></header><main class="wrap">
+<h2>What it does</h2><ul class="facts"><li>Three sources: GeckoTerminal trending pools, GeckoTerminal new pools, and DexScreener boosted tokens.</li><li>Filters for liquidity, market cap, 24h and 1h volume, age, 1h price change, unique buyers, DEX, pump.fun-only, and a name or ticker regex.</li><li>Readable amounts and ages: <code>25k</code>, <code>1.5m</code>, <code>30m</code>, <code>6h</code>, <code>2d</code>.</li><li>One row per token (its deepest pool), so the same coin never fills the list.</li><li><code>--watch 30</code> turns it into a live dashboard; <code>--json</code> for scripts.</li></ul>
+<h2>Quick start</h2><p>You need <a href="https://nodejs.org">Node.js</a> 22 or newer. Nothing else: no install step, no dependencies, no API keys.</p>
+<pre><code>npx -y github:blixtrade/solana-memecoin-screener --min-liq 20k --max-mcap 5m --sort chg1h</code></pre>
+<h2>Example output</h2><p class="note">Real output from a live run.</p><pre><code>Solana memecoin screener  ·  trending  ·  6 of 40 pools match  ·  17:35:54
+
+Ticker        Age         Price       Mcap        Liq    Vol 24h        5m        1h        24h  Buys/Sells 1h  DEX        Mint
+:3            32d    $0.0006101    $610.1K     $66.5K     $1.90M     -1.9%    +22.6%     +64.7%        190/215  pumpswap   FSkyjfqB26u6c2GSgpACrjbxp9yQAR8rutxprVNppump
+WASTED        19d      $0.00117     $1.15M    $105.5K     $1.16M     -4.0%    +15.1%     -65.9%        320/361  pumpswap   GexThZHgaswpAQ7Fi8QrHFubjPimUNSYhJiAA7XZpump
+Dacity        38d    $0.0002132    $209.3K     $79.6K    $799.2K     +3.6%     +9.0%     -72.1%        320/293  pumpswap   nxPqZ4F7ux8Vph5NFu25rEP6Kx9Gr1U6Fmj36Rjpump
+SHIT          23h      $0.00255     $2.52M    $123.5K     $3.07M     +2.4%     +6.6%   +1969.6%      2152/2041  pumpswap   Fn95NtGXWPaJXc4N5y9rVkUq1NwZbjBNJzPVvNRLpump
+CHAR           2d    $0.0001165    $116.5K     $27.3K    $313.3K     -1.5%     +5.8%     +81.9%          80/93  pumpswap   9k2nqjUrSh9p2ZBnWxNE3QRWYiLocrWZfoDm3Vdxpump
+GATO          85d     $0.004106     $4.07M    $217.8K     $1.42M     -2.2%     +5.4%     -25.0%       1316/664  pumpswap   HsprHxBRgiVaQdRf3TnKNuZZtaX9JUSPgMFdAkk6pump</code></pre>
+<h2>How it works</h2><ul class="facts"><li>GeckoTerminal and DexScreener responses are normalised into one row shape, then filtered and sorted locally.</li><li>Requests to GeckoTerminal are spaced out and rate limits are waited out automatically.</li></ul>
+<h2>Limits</h2><ul class="facts"><li>Results are as fresh as the free APIs, usually under a minute old.</li><li>GeckoTerminal&#x27;s free API allows about 30 requests a minute. Scanning many pages with <code>--watch</code> will slow down rather than fail.</li></ul>
+<h2>Questions</h2><details><summary>Which tokens can it screen?</summary><p>Trending pools and newly created pools from GeckoTerminal, and boosted tokens from DexScreener.</p></details><details><summary>Can it keep refreshing?</summary><p>Yes. --watch reloads on an interval so it works as a live dashboard in your terminal.</p></details><details><summary>Do I need an API key?</summary><p>No. Both data sources are free and public.</p></details>
+<h2>Contribute</h2><p>It is a small, dependency-free codebase and the tests run offline. Pick a <a href="https://github.com/blixtrade/solana-memecoin-screener/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22">good first issue</a>: each one names the exact files to change. Pull requests are reviewed the same day.</p>
+<section class="cta"><h2>Want it live, with AI on every coin?</h2><p>Solana Memecoin Screener is the free, simple version. <a href="https://blixvip.com/solana-memecoin-screener?utm_source=blixtrade-site&utm_medium=web&utm_campaign=solana-memecoin-screener">BLIX</a> runs it live in the browser with AI ratings on every pump.fun launch, wallet and X tracking, and one-click trading at 0% fees.</p><div class="btns"><a class="btn go" href="https://blixvip.com/solana-memecoin-screener?utm_source=blixtrade-site&utm_medium=web&utm_campaign=solana-memecoin-screener">Open BLIX</a></div></section>
+<h2>More free tools</h2><div class="grid"><a class="card" href="/solana-bubble-map/"><h3>Solana Bubble Map</h3><p>Who holds a token, and which top holders are secretly the same person.</p></a><a class="card" href="/solana-wallet-tracker/"><h3>Solana Wallet Tracker</h3><p>Follow any wallets and see every buy and sell they make.</p></a><a class="card" href="/solana-rug-checker/"><h3>Solana Rug Checker</h3><p>Authorities, Token-2022 traps, holders and liquidity, scored 0-100.</p></a><a class="card" href="/pump-fun-tracker/"><h3>pump.fun Tracker</h3><p>Every new pump.fun launch, live, the second it is created.</p></a><a class="card" href="/solana-whale-tracker/"><h3>Solana Whale Tracker</h3><p>Large trades on any token, net whale flow, top buyers and dumpers.</p></a><a class="card" href="/solana-pnl-tracker/"><h3>Solana PnL Tracker</h3><p>Realized profit, open positions and win rate for any wallet.</p></a><a class="card" href="/memecoin-alert-bot/"><h3>Memecoin Alert Bot</h3><p>New launches and graduations, filtered, in Telegram and Discord.</p></a><a class="card" href="/memecoin-paper-trading/"><h3>Memecoin Paper Trading</h3><p>Trade any token with fake SOL at real Jupiter prices.</p></a><a class="card" href="/pump-fun-mcp/"><h3>pump.fun MCP Server</h3><p>Six read-only memecoin research tools for AI assistants.</p></a></div>
+</main>
+<footer><div class="wrap">
+<p>Free, open-source Solana tools from <a href="https://github.com/blixtrade">Blix Trade</a>, MIT licensed. The full live terminal is <a href="https://blixvip.com/?utm_source=blixtrade-site&utm_medium=web&utm_campaign=footer">BLIX</a>.</p>
+<p>Research software, not financial advice. Memecoins are extremely volatile and most go to zero. Data comes from free third-party APIs that can be wrong or late.</p>
+</div></footer>
+</body>
+</html>

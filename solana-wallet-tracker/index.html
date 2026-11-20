@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solana Wallet Tracker: Follow Any Wallet&#x27;s Trades | Blix Trade</title>
+<meta name="description" content="Follow any Solana wallets and see every memecoin buy and sell they make: token, size in SOL and USD, and a Solscan link. Optional Discord alerts for...">
+<link rel="canonical" href="https://blixtrade.github.io/solana-wallet-tracker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Blix Trade">
+<meta property="og:title" content="Solana Wallet Tracker: Follow Any Wallet&#x27;s Trades | Blix Trade">
+<meta property="og:description" content="Follow any Solana wallets and see every memecoin buy and sell they make: token, size in SOL and USD, and a Solscan link. Optional Discord alerts for...">
+<meta property="og:url" content="https://blixtrade.github.io/solana-wallet-tracker/">
+<meta property="og:image" content="https://blixtrade.github.io/og/solana-wallet-tracker.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Solana Wallet Tracker: Follow Any Wallet&#x27;s Trades | Blix Trade">
+<meta name="twitter:description" content="Follow any Solana wallets and see every memecoin buy and sell they make: token, size in SOL and USD, and a Solscan link. Optional Discord alerts for...">
+<meta name="twitter:image" content="https://blixtrade.github.io/og/solana-wallet-tracker.png">
+<meta name="theme-color" content="#0b0b14">
+<link rel="icon" href="/icon.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Solana Wallet Tracker", "description": "Follow any Solana wallets and see every memecoin buy and sell they make: token, size in SOL and USD, and a Solscan link. Optional Discord alerts for copy-trading and smart-money watching.", "applicationCategory": "FinanceApplication", "operatingSystem": "Windows, macOS, Linux", "url": "https://blixtrade.github.io/solana-wallet-tracker/", "downloadUrl": "https://github.com/blixtrade/solana-wallet-tracker", "license": "https://opensource.org/licenses/MIT", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@type": "Organization", "name": "Blix Trade", "url": "https://github.com/blixtrade"}, "keywords": "Solana wallet tracker, copy trading, smart money tracker, whale watching, memecoin wallet alerts, Discord webhook, on-chain tracking"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does it know what a wallet bought?", "acceptedAnswer": {"@type": "Answer", "text": "It reads the wallet's transactions and compares token balances before and after each one, with the network fee added back, so buys, sells, swaps and transfers are told apart."}}, {"@type": "Question", "name": "Can it alert me?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Pass a Discord webhook URL and every trade is posted to your channel."}}, {"@type": "Question", "name": "Can I track many wallets?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. List them on the command line or put one address and an optional label per line in a file."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Blix Trade", "item": "https://blixtrade.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Solana Wallet Tracker", "item": "https://blixtrade.github.io/solana-wallet-tracker/"}]}</script>
+<style>
+:root{--bg:#0b0b14;--panel:#12121e;--line:#24243a;--text:#ececf4;--dim:#a2a2ba;--accent:#c9b6ff;--green:#14f195}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--accent)}
+a:hover{color:#fff}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+nav{border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:700;letter-spacing:.3px}
+.brand img{width:30px;height:30px;border-radius:8px}
+nav .links{display:flex;gap:18px;font-size:15px}
+nav .links a{color:var(--dim);text-decoration:none}
+nav .links a:hover{color:#fff}
+header.hero{padding:56px 0 28px}
+.kicker{color:var(--accent);font-weight:600;font-size:14px;letter-spacing:.6px;text-transform:uppercase;margin:0 0 10px}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.12;margin:0 0 16px;letter-spacing:-.5px}
+h2{font-size:24px;margin:44px 0 14px;letter-spacing:-.2px}
+h3{font-size:18px;margin:0 0 6px}
+.lede{font-size:19px;color:#cfcfe0;max-width:760px;margin:0}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0 0}
+.btn{display:inline-block;padding:11px 18px;border-radius:10px;text-decoration:none;font-weight:600;font-size:16px;border:1px solid var(--line);color:var(--text);background:var(--panel)}
+.btn:hover{border-color:var(--accent);color:#fff}
+.btn.go{background:var(--green);color:#06120c;border-color:var(--green)}
+.btn.go:hover{filter:brightness(1.08);color:#06120c}
+ul.facts{padding-left:20px;margin:0}
+ul.facts li{margin:0 0 8px}
+code{font:14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#1b1b2b;padding:2px 6px;border-radius:5px;color:#e4dcff}
+pre{background:#0f0f1a;border:1px solid var(--line);border-radius:12px;padding:16px;overflow-x:auto;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#d8d8e8;margin:0}
+pre code{background:none;padding:0;color:inherit;font:inherit}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;text-decoration:none;color:var(--text);display:block;min-width:0}
+a.card:hover{border-color:var(--accent)}
+.card p{color:var(--dim);margin:0;font-size:15px}
+.card .go{color:var(--green);font-weight:600;font-size:14px;margin-top:10px;display:block}
+.shot{width:100%;border-radius:12px;border:1px solid var(--line);display:block}
+figure{margin:0}
+figcaption{color:var(--dim);font-size:14px;margin-top:8px}
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 10px}
+summary{cursor:pointer;font-weight:600}
+details p{margin:10px 0 0;color:#cfcfe0}
+.cta{background:linear-gradient(135deg,#1a1430,#101826);border:1px solid #3a2f63;border-radius:16px;padding:26px;margin:48px 0 0}
+.cta h2{margin-top:0}
+.cta p{color:#cfcfe0;margin:0}
+.note{color:var(--dim);font-size:14px}
+footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 0 40px;color:var(--dim);font-size:14px}
+footer a{color:var(--dim)}
+@media (max-width:560px){nav .links a.hide-s{display:none}header.hero{padding-top:36px}body{font-size:16px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+<a class="brand" href="/"><img src="/icon.png" alt="" width="30" height="30">Blix Trade</a>
+<div class="links"><a href="/#tools">Tools</a><a class="hide-s" href="/solana-bubble-map/#demos">Live demo</a><a class="hide-s" href="https://github.com/blixtrade">GitHub</a><a href="https://blixvip.com/?utm_source=blixtrade-site&utm_medium=web&utm_campaign=nav">BLIX &rarr;</a></div>
+</div></nav>
+<header class="hero"><div class="wrap">
+<p class="kicker">Free and open source &middot; Node 22 &middot; no API key</p>
+<h1>Solana Wallet Tracker</h1>
+<p class="lede">Follow any Solana wallets and see every memecoin buy and sell they make: token, size in SOL and USD, and a Solscan link. Optional Discord alerts for copy-trading and smart-money watching.</p>
+<div class="btns"><a class="btn" href="https://github.com/blixtrade/solana-wallet-tracker">View on GitHub</a><a class="btn go" href="https://blixvip.com/solana-wallet-tracker?utm_source=blixtrade-site&utm_medium=web&utm_campaign=solana-wallet-tracker">Use the live version on BLIX</a></div>
+</div></header><main class="wrap">
+<h2>What it does</h2><ul class="facts"><li>Reads each wallet&#x27;s transactions and turns them into buys, sells and token-for-token swaps, with the SOL or stablecoin amount and the USD value.</li><li>Works across every DEX and launchpad (pump.fun, PumpSwap, Raydium, Meteora, Jupiter routes), because it reads balance changes rather than one program&#x27;s instructions.</li><li>Watches for new trades on a timer and can post each one to a Discord webhook.</li><li>Load a list of wallets with labels from a file: one <code>address label</code> per line.</li></ul>
+<h2>Quick start</h2><p>You need <a href="https://nodejs.org">Node.js</a> 22 or newer. Nothing else: no install step, no dependencies, no API keys.</p>
+<pre><code>npx -y github:blixtrade/solana-wallet-tracker &lt;wallet&gt; [&lt;wallet&gt; ...]</code></pre>
+<h2>Example output</h2><p class="note">Real output from a live run.</p><pre><code>18 Nov, 17:32:22   BAqd…exx3       SELL       7.2K DCTY              1.377 SOL    $100.38  9hjBLBrc7WZW2H8UQvBAvG5WiTZotXUv2Bdcn4f4pump
+18 Nov, 17:34:26   BAqd…exx3       BUY        5.3K DCTY              1.002 SOL     $73.05  9hjBLBrc7WZW2H8UQvBAvG5WiTZotXUv2Bdcn4f4pump
+18 Nov, 17:35:05   BAqd…exx3       BUY        2.6K DCTY              0.502 SOL     $36.60  9hjBLBrc7WZW2H8UQvBAvG5WiTZotXUv2Bdcn4f4pump
+18 Nov, 17:36:00   BAqd…exx3       BUY        2.6K DCTY              0.502 SOL     $36.60  9hjBLBrc7WZW2H8UQvBAvG5WiTZotXUv2Bdcn4f4pump
+18 Nov, 17:36:12   BAqd…exx3       BUY        1.0K DCTY              0.203 SOL     $14.76  9hjBLBrc7WZW2H8UQvBAvG5WiTZotXUv2Bdcn4f4pump</code></pre>
+<h2>How it works</h2><ul class="facts"><li>For each transaction, the wallet&#x27;s SOL change (fee added back) and token balance changes are compared. Token in plus SOL out is a buy; the reverse is a sell. Wrapped SOL counts as SOL; USDC and USDT count as dollars.</li><li>Moves smaller than a token-account rent deposit are treated as transfers, not trades.</li><li>Token names and prices come from DexScreener; the SOL price from Jupiter.</li></ul>
+<h2>Limits</h2><ul class="facts"><li>On the free public RPC, about one transaction is read per second. For more than 3 wallets, set <code>SOLANA_RPC_URL</code>.</li><li>Transfers are hidden by default (<code>--transfers</code> shows them).</li></ul>
+<h2>Questions</h2><details><summary>How does it know what a wallet bought?</summary><p>It reads the wallet&#x27;s transactions and compares token balances before and after each one, with the network fee added back, so buys, sells, swaps and transfers are told apart.</p></details><details><summary>Can it alert me?</summary><p>Yes. Pass a Discord webhook URL and every trade is posted to your channel.</p></details><details><summary>Can I track many wallets?</summary><p>Yes. List them on the command line or put one address and an optional label per line in a file.</p></details>
+<h2>Contribute</h2><p>It is a small, dependency-free codebase and the tests run offline. Pick a <a href="https://github.com/blixtrade/solana-wallet-tracker/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22">good first issue</a>: each one names the exact files to change. Pull requests are reviewed the same day.</p>
+<section class="cta"><h2>Want it live, with AI on every coin?</h2><p>Solana Wallet Tracker is the free, simple version. <a href="https://blixvip.com/solana-wallet-tracker?utm_source=blixtrade-site&utm_medium=web&utm_campaign=solana-wallet-tracker">BLIX</a> runs it live in the browser with AI ratings on every pump.fun launch, wallet and X tracking, and one-click trading at 0% fees.</p><div class="btns"><a class="btn go" href="https://blixvip.com/solana-wallet-tracker?utm_source=blixtrade-site&utm_medium=web&utm_campaign=solana-wallet-tracker">Open BLIX</a></div></section>
+<h2>More free tools</h2><div class="grid"><a class="card" href="/solana-bubble-map/"><h3>Solana Bubble Map</h3><p>Who holds a token, and which top holders are secretly the same person.</p></a><a class="card" href="/solana-rug-checker/"><h3>Solana Rug Checker</h3><p>Authorities, Token-2022 traps, holders and liquidity, scored 0-100.</p></a><a class="card" href="/pump-fun-tracker/"><h3>pump.fun Tracker</h3><p>Every new pump.fun launch, live, the second it is created.</p></a><a class="card" href="/solana-whale-tracker/"><h3>Solana Whale Tracker</h3><p>Large trades on any token, net whale flow, top buyers and dumpers.</p></a><a class="card" href="/solana-memecoin-screener/"><h3>Solana Memecoin Screener</h3><p>Trending, new and boosted tokens filtered by liquidity, mcap and volume.</p></a><a class="card" href="/solana-pnl-tracker/"><h3>Solana PnL Tracker</h3><p>Realized profit, open positions and win rate for any wallet.</p></a><a class="card" href="/memecoin-alert-bot/"><h3>Memecoin Alert Bot</h3><p>New launches and graduations, filtered, in Telegram and Discord.</p></a><a class="card" href="/memecoin-paper-trading/"><h3>Memecoin Paper Trading</h3><p>Trade any token with fake SOL at real Jupiter prices.</p></a><a class="card" href="/pump-fun-mcp/"><h3>pump.fun MCP Server</h3><p>Six read-only memecoin research tools for AI assistants.</p></a></div>
+</main>
+<footer><div class="wrap">
+<p>Free, open-source Solana tools from <a href="https://github.com/blixtrade">Blix Trade</a>, MIT licensed. The full live terminal is <a href="https://blixvip.com/?utm_source=blixtrade-site&utm_medium=web&utm_campaign=footer">BLIX</a>.</p>
+<p>Research software, not financial advice. Memecoins are extremely volatile and most go to zero. Data comes from free third-party APIs that can be wrong or late.</p>
+</div></footer>
+</body>
+</html>

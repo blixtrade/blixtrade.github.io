@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solana Rug Checker: Free Rug Pull Scanner | Blix Trade</title>
+<meta name="description" content="Rug pull scanner for Solana and pump.fun tokens. Checks the contract, the holders and the liquidity, and gives a 0 to 100 risk score with a plain-English...">
+<link rel="canonical" href="https://blixtrade.github.io/solana-rug-checker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Blix Trade">
+<meta property="og:title" content="Solana Rug Checker: Free Rug Pull Scanner | Blix Trade">
+<meta property="og:description" content="Rug pull scanner for Solana and pump.fun tokens. Checks the contract, the holders and the liquidity, and gives a 0 to 100 risk score with a plain-English...">
+<meta property="og:url" content="https://blixtrade.github.io/solana-rug-checker/">
+<meta property="og:image" content="https://blixtrade.github.io/og/solana-rug-checker.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Solana Rug Checker: Free Rug Pull Scanner | Blix Trade">
+<meta name="twitter:description" content="Rug pull scanner for Solana and pump.fun tokens. Checks the contract, the holders and the liquidity, and gives a 0 to 100 risk score with a plain-English...">
+<meta name="twitter:image" content="https://blixtrade.github.io/og/solana-rug-checker.png">
+<meta name="theme-color" content="#0b0b14">
+<link rel="icon" href="/icon.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Solana Rug Checker", "description": "Rug pull scanner for Solana and pump.fun tokens. Checks the contract, the holders and the liquidity, and gives a 0 to 100 risk score with a plain-English reason for every point.", "applicationCategory": "FinanceApplication", "operatingSystem": "Windows, macOS, Linux", "url": "https://blixtrade.github.io/solana-rug-checker/", "downloadUrl": "https://github.com/blixtrade/solana-rug-checker", "license": "https://opensource.org/licenses/MIT", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@type": "Organization", "name": "Blix Trade", "url": "https://github.com/blixtrade"}, "keywords": "rug checker, rug pull scanner, RugCheck, honeypot checker, token safety, mint authority, freeze authority, Token-2022, Solana, pump.fun"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What does the risk score mean?", "acceptedAnswer": {"@type": "Answer", "text": "0 to 24 is low risk, 25 to 59 is caution, 60 and up is high. Every point comes with the reason it was added, so you can judge for yourself."}}, {"@type": "Question", "name": "What are Token-2022 traps?", "acceptedAnswer": {"@type": "Answer", "text": "Token-2022 extensions that can hurt buyers: transfer fees, permanent delegates that can move tokens out of any wallet, transfer hooks, non-transferable tokens and accounts frozen by default."}}, {"@type": "Question", "name": "Can a low score guarantee a token is safe?", "acceptedAnswer": {"@type": "Answer", "text": "No. It catches common contract and holder red flags. A team can still dump or abandon a token that passes every check."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Blix Trade", "item": "https://blixtrade.github.io/"}, {"@type": "ListItem", "position": 2, "name": "Solana Rug Checker", "item": "https://blixtrade.github.io/solana-rug-checker/"}]}</script>
+<style>
+:root{--bg:#0b0b14;--panel:#12121e;--line:#24243a;--text:#ececf4;--dim:#a2a2ba;--accent:#c9b6ff;--green:#14f195}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--accent)}
+a:hover{color:#fff}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+nav{border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:700;letter-spacing:.3px}
+.brand img{width:30px;height:30px;border-radius:8px}
+nav .links{display:flex;gap:18px;font-size:15px}
+nav .links a{color:var(--dim);text-decoration:none}
+nav .links a:hover{color:#fff}
+header.hero{padding:56px 0 28px}
+.kicker{color:var(--accent);font-weight:600;font-size:14px;letter-spacing:.6px;text-transform:uppercase;margin:0 0 10px}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.12;margin:0 0 16px;letter-spacing:-.5px}
+h2{font-size:24px;margin:44px 0 14px;letter-spacing:-.2px}
+h3{font-size:18px;margin:0 0 6px}
+.lede{font-size:19px;color:#cfcfe0;max-width:760px;margin:0}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0 0}
+.btn{display:inline-block;padding:11px 18px;border-radius:10px;text-decoration:none;font-weight:600;font-size:16px;border:1px solid var(--line);color:var(--text);background:var(--panel)}
+.btn:hover{border-color:var(--accent);color:#fff}
+.btn.go{background:var(--green);color:#06120c;border-color:var(--green)}
+.btn.go:hover{filter:brightness(1.08);color:#06120c}
+ul.facts{padding-left:20px;margin:0}
+ul.facts li{margin:0 0 8px}
+code{font:14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#1b1b2b;padding:2px 6px;border-radius:5px;color:#e4dcff}
+pre{background:#0f0f1a;border:1px solid var(--line);border-radius:12px;padding:16px;overflow-x:auto;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#d8d8e8;margin:0}
+pre code{background:none;padding:0;color:inherit;font:inherit}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;text-decoration:none;color:var(--text);display:block;min-width:0}
+a.card:hover{border-color:var(--accent)}
+.card p{color:var(--dim);margin:0;font-size:15px}
+.card .go{color:var(--green);font-weight:600;font-size:14px;margin-top:10px;display:block}
+.shot{width:100%;border-radius:12px;border:1px solid var(--line);display:block}
+figure{margin:0}
+figcaption{color:var(--dim);font-size:14px;margin-top:8px}
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 10px}
+summary{cursor:pointer;font-weight:600}
+details p{margin:10px 0 0;color:#cfcfe0}
+.cta{background:linear-gradient(135deg,#1a1430,#101826);border:1px solid #3a2f63;border-radius:16px;padding:26px;margin:48px 0 0}
+.cta h2{margin-top:0}
+.cta p{color:#cfcfe0;margin:0}
+.note{color:var(--dim);font-size:14px}
+footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 0 40px;color:var(--dim);font-size:14px}
+footer a{color:var(--dim)}
+@media (max-width:560px){nav .links a.hide-s{display:none}header.hero{padding-top:36px}body{font-size:16px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+<a class="brand" href="/"><img src="/icon.png" alt="" width="30" height="30">Blix Trade</a>
+<div class="links"><a href="/#tools">Tools</a><a class="hide-s" href="/solana-bubble-map/#demos">Live demo</a><a class="hide-s" href="https://github.com/blixtrade">GitHub</a><a href="https://blixvip.com/?utm_source=blixtrade-site&utm_medium=web&utm_campaign=nav">BLIX &rarr;</a></div>
+</div></nav>
+<header class="hero"><div class="wrap">
+<p class="kicker">Free and open source &middot; Node 22 &middot; no API key</p>
+<h1>Solana Rug Checker</h1>
+<p class="lede">Rug pull scanner for Solana and pump.fun tokens. Checks the contract, the holders and the liquidity, and gives a 0 to 100 risk score with a plain-English reason for every point.</p>
+<div class="btns"><a class="btn" href="https://github.com/blixtrade/solana-rug-checker">View on GitHub</a><a class="btn go" href="https://blixvip.com/rug-pull-scanner?utm_source=blixtrade-site&utm_medium=web&utm_campaign=solana-rug-checker">Use the live version on BLIX</a></div>
+</div></header><main class="wrap">
+<h2>What it does</h2><ul class="facts"><li>Mint authority and freeze authority, read straight from the chain.</li><li>Token-2022 traps: transfer taxes, permanent delegates (an authority that can take tokens from any wallet), transfer hooks, non-transferable tokens and frozen-by-default accounts.</li><li>Holder concentration with pools left out, insider-flagged holders, and how much the creator still holds.</li><li>Liquidity of the deepest pool, pool age, and the honeypot pattern (plenty of buys, zero sells).</li><li>Coins still on the pump.fun bonding curve are recognised and not mistaken for zero liquidity.</li><li>Exit code 2 when the score is at or above <code>--fail-on</code>, so you can use it in scripts and bots.</li></ul>
+<h2>Quick start</h2><p>You need <a href="https://nodejs.org">Node.js</a> 22 or newer. Nothing else: no install step, no dependencies, no API keys.</p>
+<pre><code>npx -y github:blixtrade/solana-rug-checker &lt;mint&gt;</code></pre>
+<h2>Example output</h2><p class="note">Real output from a live run.</p><pre><code>DacityCoin (DCTY)  9hjBLBrc7WZW2H8UQvBAvG5WiTZotXUv2Bdcn4f4pump
+$0.01362  ·  mcap $12.89M  ·  liquidity $448.6K  ·  24h volume $32.60M  ·  age 30d  ·  38,388 holders
+
+Risk score 5/100  LOW RISK
+
+  ▲ Insider network of 52 wallets
+    RugCheck found wallets connected by transfers around the launch.
+  ✔ Mint authority revoked
+    No new tokens can be created.
+  ✔ Freeze authority revoked
+    Wallets cannot be frozen.
+  ✔ Top 10 wallets hold 15.9%
+    Supply is spread out.
+  ✔ Creator holds 0%
+    The deployer wallet holds none of the supply (sold or never bought).
+  ✔ Liquidity is $448,583
+    Deepest pool is on pumpswap.
+
+A low score is not a guarantee. This checks the contract and the holders, not the team.</code></pre>
+<h2>How it works</h2><ul class="facts"><li>Three sources are read in parallel: the Solana RPC (mint account and extensions), RugCheck (holders, insiders, extra risks) and DexScreener (pools and trading activity).</li><li>If one source is down, the check still runs on the other two and says what was not checked.</li><li>Each finding adds points; the score is capped at 100. 0 to 24 is low, 25 to 59 caution, 60 and up high risk.</li></ul>
+<h2>Limits</h2><ul class="facts"><li>A low score is not a guarantee. It checks the contract and the holders, not the team, the narrative or a coordinated dump.</li><li>Holder data comes from RugCheck and can lag the chain by a few minutes on brand-new coins.</li></ul>
+<h2>Questions</h2><details><summary>What does the risk score mean?</summary><p>0 to 24 is low risk, 25 to 59 is caution, 60 and up is high. Every point comes with the reason it was added, so you can judge for yourself.</p></details><details><summary>What are Token-2022 traps?</summary><p>Token-2022 extensions that can hurt buyers: transfer fees, permanent delegates that can move tokens out of any wallet, transfer hooks, non-transferable tokens and accounts frozen by default.</p></details><details><summary>Can a low score guarantee a token is safe?</summary><p>No. It catches common contract and holder red flags. A team can still dump or abandon a token that passes every check.</p></details>
+<h2>Contribute</h2><p>It is a small, dependency-free codebase and the tests run offline. Pick a <a href="https://github.com/blixtrade/solana-rug-checker/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22">good first issue</a>: each one names the exact files to change. Pull requests are reviewed the same day.</p>
+<section class="cta"><h2>Want it live, with AI on every coin?</h2><p>Solana Rug Checker is the free, simple version. <a href="https://blixvip.com/rug-pull-scanner?utm_source=blixtrade-site&utm_medium=web&utm_campaign=solana-rug-checker">BLIX</a> runs it live in the browser with AI ratings on every pump.fun launch, wallet and X tracking, and one-click trading at 0% fees.</p><div class="btns"><a class="btn go" href="https://blixvip.com/rug-pull-scanner?utm_source=blixtrade-site&utm_medium=web&utm_campaign=solana-rug-checker">Open BLIX</a></div></section>
+<h2>More free tools</h2><div class="grid"><a class="card" href="/solana-bubble-map/"><h3>Solana Bubble Map</h3><p>Who holds a token, and which top holders are secretly the same person.</p></a><a class="card" href="/solana-wallet-tracker/"><h3>Solana Wallet Tracker</h3><p>Follow any wallets and see every buy and sell they make.</p></a><a class="card" href="/pump-fun-tracker/"><h3>pump.fun Tracker</h3><p>Every new pump.fun launch, live, the second it is created.</p></a><a class="card" href="/solana-whale-tracker/"><h3>Solana Whale Tracker</h3><p>Large trades on any token, net whale flow, top buyers and dumpers.</p></a><a class="card" href="/solana-memecoin-screener/"><h3>Solana Memecoin Screener</h3><p>Trending, new and boosted tokens filtered by liquidity, mcap and volume.</p></a><a class="card" href="/solana-pnl-tracker/"><h3>Solana PnL Tracker</h3><p>Realized profit, open positions and win rate for any wallet.</p></a><a class="card" href="/memecoin-alert-bot/"><h3>Memecoin Alert Bot</h3><p>New launches and graduations, filtered, in Telegram and Discord.</p></a><a class="card" href="/memecoin-paper-trading/"><h3>Memecoin Paper Trading</h3><p>Trade any token with fake SOL at real Jupiter prices.</p></a><a class="card" href="/pump-fun-mcp/"><h3>pump.fun MCP Server</h3><p>Six read-only memecoin research tools for AI assistants.</p></a></div>
+</main>
+<footer><div class="wrap">
+<p>Free, open-source Solana tools from <a href="https://github.com/blixtrade">Blix Trade</a>, MIT licensed. The full live terminal is <a href="https://blixvip.com/?utm_source=blixtrade-site&utm_medium=web&utm_campaign=footer">BLIX</a>.</p>
+<p>Research software, not financial advice. Memecoins are extremely volatile and most go to zero. Data comes from free third-party APIs that can be wrong or late.</p>
+</div></footer>
+</body>
+</html>
