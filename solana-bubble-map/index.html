@@ -87,6 +87,9 @@ footer a{color:var(--dim)}
 </div></header><main class="wrap">
 <figure><img class="shot" src="/img/bubble-map.png" width="1280" height="760" alt="Solana bubble map: a token's top holders drawn as bubbles sized by share of supply"><figcaption>A real map of a live pump.fun token.</figcaption></figure>
 <h2 id="demos">Try a live bubble map</h2><p>Real maps built with this tool, no install needed. Drag the bubbles, hover for details, click a wallet to open it on Solscan.</p><div class="grid">
+<a class="card" href="/solana-bubble-map/bonk/"><h3>BONK bubble map</h3><p><code>DezXAZ&hellip;B263</code></p><span class="go">Open the map &rarr;</span></a>
+<a class="card" href="/solana-bubble-map/wif/"><h3>dogwifhat (WIF) bubble map</h3><p><code>EKpQGS&hellip;zcjm</code></p><span class="go">Open the map &rarr;</span></a>
+<a class="card" href="/solana-bubble-map/popcat/"><h3>POPCAT bubble map</h3><p><code>7GCihg&hellip;W2hr</code></p><span class="go">Open the map &rarr;</span></a>
 </div>
 <h2>What it does</h2><ul class="facts"><li>Loads the top 20 holders of any SPL token and checks each one against the chain, so closed accounts and stale balances are dropped.</li><li>Traces who first funded every holder wallet and links wallets that share a funder or funded each other. Linked wallets are coloured as one group: the classic sign of a dev or a bundle spreading supply over many wallets.</li><li>Labels liquidity pools (Raydium, PumpSwap, Meteora, Orca) and leaves them out of the concentration numbers.</li><li>Writes one self-contained HTML file: draggable bubbles, hover details, click through to Solscan. No server, no tracking, nothing loaded from the internet.</li></ul>
 <h2>Quick start</h2><p>You need <a href="https://nodejs.org">Node.js</a> 22 or newer. Nothing else: no install step, no dependencies, no API keys.</p>

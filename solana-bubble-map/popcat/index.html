@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>POPCAT Bubble Map: Top Holders and Linked Wallets | Blix Trade</title>
+<meta name="description" content="Interactive bubble map of POPCAT on Solana: who holds the supply, which holders are pools, and which wallets share a funder. The top 10 wallets hold 42.2%.">
+<link rel="canonical" href="https://blixtrade.github.io/solana-bubble-map/popcat/">
+<meta property="og:title" content="POPCAT Bubble Map: Top Holders and Linked Wallets | Blix Trade">
+<meta property="og:description" content="Interactive bubble map of POPCAT on Solana: who holds the supply, which holders are pools, and which wallets share a funder. The top 10 wallets hold 42.2%.">
+<meta property="og:image" content="https://blixtrade.github.io/og/solana-bubble-map.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/icon.png">
+<style>
+  :root { --bg:#0b0d10; --panel:#13161b; --line:#232832; --text:#e8eaee; --dim:#8b93a1; --accent:#c9ced8; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; height:100%; background:var(--bg); color:var(--text); font:14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+  header { padding:16px 20px; border-bottom:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 28px; align-items:baseline; }
+  h1 { font-size:18px; margin:0; font-weight:650; }
+  .mint { color:var(--dim); font:12px ui-monospace, SFMono-Regular, Menlo, monospace; word-break:break-all; }
+  .stats { display:flex; flex-wrap:wrap; gap:6px 22px; color:var(--dim); }
+  .stats b { color:var(--text); font-weight:600; }
+  main { display:grid; grid-template-columns:minmax(0,1fr) 340px; height:calc(100% - 118px); min-height:420px; }
+  svg { width:100%; height:100%; display:block; touch-action:none; }
+  aside { border-left:1px solid var(--line); overflow:auto; background:var(--panel); }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  th, td { padding:7px 10px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th { color:var(--dim); font-weight:500; position:sticky; top:0; background:var(--panel); }
+  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+  tr.row { cursor:pointer; }
+  tr.row:hover, tr.row.on { background:#1b2028; }
+  .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:7px; vertical-align:middle; }
+  .tag { color:var(--dim); font-size:11.5px; }
+  a { color:var(--accent); }
+  #tip { position:fixed; pointer-events:none; background:#000; border:1px solid var(--line); border-radius:8px; padding:9px 11px; font-size:12.5px; max-width:300px; display:none; z-index:5; }
+  #tip .a { font-family:ui-monospace, monospace; font-size:11.5px; color:var(--dim); word-break:break-all; }
+  footer { padding:9px 20px; border-top:1px solid var(--line); color:var(--dim); font-size:12.5px; display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:space-between; }
+  circle { stroke:#0b0d10; stroke-width:1.5; cursor:pointer; }
+  circle.on { stroke:#fff; stroke-width:2; }
+  line { stroke:#7f8796; stroke-opacity:.55; stroke-width:1.4; }
+  text.lbl { fill:#0b0d10; font-size:11px; font-weight:650; text-anchor:middle; pointer-events:none; }
+  @media (max-width: 820px) { main { grid-template-columns:1fr; height:auto; } svg { height:62vh; } aside { border-left:0; border-top:1px solid var(--line); } }
+</style>
+</head>
+<body><div style="padding:10px 20px;background:#12121e;border-bottom:1px solid #24243a;font:14px system-ui,sans-serif;display:flex;flex-wrap:wrap;gap:6px 18px"><a href="/solana-bubble-map/" style="color:#c9b6ff">&larr; Solana Bubble Map</a><span style="color:#a2a2ba">Map built on 2026-11-19 with the free, open-source tool. <a href="https://github.com/blixtrade/solana-bubble-map" style="color:#c9b6ff">Make your own</a></span></div>
+<header>
+  <div><h1 id="title"></h1><div class="mint" id="mint"></div></div>
+  <div class="stats" id="stats"></div>
+</header>
+<main>
+  <svg id="map" role="img" aria-label="Token holder bubble map"></svg>
+  <aside><table><thead><tr><th>#</th><th>Holder</th><th class="num">Share</th><th>Group</th></tr></thead><tbody id="rows"></tbody></table></aside>
+</main>
+<footer>
+  <span>Bubble size is share of supply. Lines join wallets that share a funder or funded each other. Colour marks a linked group. A link is a lead, not proof.</span>
+  <span>Live holder ledgers and wallet tracking: <a href="https://blixvip.com/?utm_source=blixtrade-site&utm_medium=demo&utm_campaign=popcat" target="_blank" rel="noopener">blixvip.com</a></span>
+</footer>
+<div id="tip"></div>
+<script id="data" type="application/json">{"mint":"7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr","name":"POPCAT","symbol":"POPCAT","totalHolders":473465,"creator":null,"holders":[{"rank":1,"owner":"51yZyDSnec4xnUv7XLRVYcDyV4x3wUtzrDcRaYbmQU5j","account":"EeaEs5YjNndVRHscaxx1urBEQWe4bhrnVMhTz2ven61r","pct":16.777356702508754,"amount":164406519.6983817,"insider":false,"label":null,"kind":null,"funder":"4xLpwxgYuPwPvtQjE94RLS4WZ4aD8NJYYKr2AJk99Qdg","funderNote":null,"cluster":1},{"rank":2,"owner":"CSSJFgoeqidqVtHKSNP7i7s6WX8APHfH2kYGdLV195Jb","account":"H21vVC1WthyNwsrbXq4yokGZufyL1GhMR1tNJNs79cqr","pct":6.633124323137178,"amount":65000041.66512106,"insider":false,"label":null,"kind":null,"funder":"AC5RDfQFmDS1deWZos921JfqscXdByf8BKHs5ACWjtW2","funderNote":null,"cluster":0},{"rank":3,"owner":"5Q544fKrFoe6tsEbD7S8EmxGTJYAKtTVhAW5Q5pge4j1","account":"4Vc6N76UBu26c3jJDKBAbvSD7zPLuQWStBk7QgVEoeoS","pct":4.337292437443891,"amount":42502473.255970806,"insider":false,"label":null,"kind":null,"funder":null,"funderNote":"too active to trace","cluster":0},{"rank":4,"owner":"9ZifroknFoYu4r6DUk6nYoJiUQnEyyoUyeAwjXbPoL2x","account":"BTXAbHn3aHxHSWhNc8aX4XhESHvBuysGA2rhuTJ3aQ2z","pct":2.9001925875899137,"amount":28419886.292898763,"insider":false,"label":null,"kind":null,"funder":null,"funderNote":"too active to trace","cluster":0},{"rank":5,"owner":"CLNEVwuSAiGsvPtE74yLhda4beNfd8qfZXVKkUcAJZDL","account":"AwDJ22isYJKZBXLnFvVD8GCGbuSvq2igJcjC7YzdKsiB","pct":2.42868239012328,"amount":23799411.688803688,"insider":false,"label":null,"kind":null,"funder":"u6PJ8DtQuPFnfmwHbGFULQ4u4EgjDiyYKjVEsynXq2w","funderNote":null,"cluster":0},{"rank":6,"owner":"4xLpwxgYuPwPvtQjE94RLS4WZ4aD8NJYYKr2AJk99Qdg","account":"2PxZ57bhrRTH5a8zD87mcEyD95hRf65ZVFCVVU2qoCaZ","pct":2.296225970980035,"amount":22501430.17305069,"insider":false,"label":null,"kind":null,"funder":null,"funderNote":"too active to trace","cluster":1},{"rank":7,"owner":"E2RvJg2myWpKcbkhBuF81gfhYr6KvmNcDbSmr5qnatYy","account":"HMj233gD3zFf4MvAvpKQVwYLwp5XyyoGhLk9UnHVrFpz","pct":1.7535614504523067,"amount":17183692.297786117,"insider":false,"label":null,"kind":null,"funder":null,"funderNote":"too active to trace","cluster":0},{"rank":8,"owner":"EFE3j1pcSP1paUzA86zW7989ZjsFP2J7ginyUqo4ewqR","account":"Di4u57NQLJd8gdyJq5S2fY3PWnoab9uxqpPAgZ3qCG97","pct":1.7527621146091497,"amount":17175859.35804633,"insider":false,"label":null,"kind":null,"funder":null,"funderNote":"too active to trace","cluster":0},{"rank":9,"owner":"6GTYrwStnattq8hE1XyWmNxQq731MoxzYFPmEKz68QHe","account":"GaWZfmRhbwTmwENAxVgojhfEZspoPfbJofpf8bYEqagb","pct":1.742453964931015,"amount":17074846.60358432,"insider":false,"label":null,"kind":null,"funder":null,"funderNote":"too active to trace","cluster":0},{"rank":10,"owner":"AVPKzX2QZ8E23SWR728yhMTnnqr9UjAZdgemfaE3qHg5","account":"HWxqXWQbPzyK1CX71Qd4BxDjmdVSjGxUP9KAV5tdfbVE","pct":1.603649797346079,"amount":15714661.532901648,"insider":false,"label":null,"kind":null,"funder":null,"funderNote":"too active to trace","cluster":0},{"rank":11,"owner":"2XubGivxkprDmvGucdQBAz13JNqCjJD6Kesuj7Di2Frd","account":"B65WjRGzQ3j7cohegc1Mqj4kYZvrtcCFUyKR4576vucG","pct":1.5227885316419265,"amount":14922276.921395,"insider":false,"label":null,"kind":null,"funder":null,"funderNote":"too active to trace","cluster":0},{"rank":12,"owner":"2WpNSDtMi1aksXXBjeENPA42vRhCeuh81B5rpF7tiaFH","account":"HDDAQdYKGGLExBnfe1gV4Kvy73ASgmTJ94pUR9Xu47tV","pct":1.3442651595503652,"amount":13172871.051875401,"insider":false,"label":null,"kind":null,"funder":"FpwQQhQQoEaVu3WU2qZMfF1hx48YyfwsLoRgXG83E99Q","funderNote":null,"cluster":0},{"rank":13,"owner":"6uQ6Uut5gWYrEzWSrQfBJ2W7LqeMeYQGsvdy66wS9MgJ","account":"EbcRDCpto1SNqvdQ5fZT9jwXzNZV33KUfskiS3cXiCGx","pct":1.3414939725820914,"amount":13145715.331640922,"insider":false,"label":null,"kind":null,"funder":"D89hHJT5Aqyx1trP6EnGY9jJUB3whgnq3aUvvCqedvzf","funderNote":null,"cluster":0},{"rank":14,"owner":"5PAhQiYdLBd6SVdjzBQDxUAEFyDdF5ExNPQfcscnPRj5","account":"B6HA6GjzpWyiWBVEvCJbaDtPjTEY3s76NS6L7KdvqjDj","pct":1.3224215628446547,"amount":12958818.875733502,"insider":false,"label":null,"kind":null,"funder":null,"funderNote":"too active to trace","cluster":0},{"rank":15,"owner":"2x5vUChSsDNJfoqkhea2d8gFMFDTVcUVRBesrYsfRs4x","account":"86HoT4GcJQxLz8A4186JA6uofA2ZGjqoDZNKjHpXfnjM","pct":1.2824294509836416,"amount":12566923.773123305,"insider":false,"label":null,"kind":null,"funder":"GJRs4FwHtemZ5ZE9x3FNvJ8TMwitKTh21yxdRPqn7npE","funderNote":null,"cluster":0},{"rank":16,"owner":"GpCaBXxX5jjxnWBC2cdevDMeTPE3RVGzRMXQuvfjvCKv","account":"8XAG2NezXoeKhKkyUpb91iRYGKr1sL2Cc4X9CHD34zrV","pct":1.1225285761807968,"amount":11000005.5279428,"insider":false,"label":null,"kind":null,"funder":null,"funderNote":"too active to trace","cluster":0},{"rank":17,"owner":"FvRKx98tsAzZxRXsSypdKVR4a1FGnBSiEed55udkn1pk","account":"2hDNAMQbfgid1bqF8UzN8uWjUH59eR89ftoKJMftKyaM","pct":1.114178790871265,"amount":10918183.393067198,"insider":false,"label":null,"kind":null,"funder":"7A73K6jQqtnmjH7b2LHKuA6tdNCGKw3jWSASnNEDzyo9","funderNote":null,"cluster":0},{"rank":18,"owner":"6LY1JzAFVZsP2a2xKrtU6znQMQ5h4i7tocWdgrkZzkzF","account":"4q2zExphyN9Xxp7UkA7YA7AmQo6RUsCfaCMwdhJFsjHk","pct":1.0571096402744702,"amount":10358945.093606183,"insider":false,"label":null,"kind":null,"funder":null,"funderNote":"too active to trace","cluster":0},{"rank":19,"owner":"DSFWxvJjgvLbVqoQ1Zwoe1iVHhwFgrfSiF3ZK1h7nd1K","account":"5ZUTZKE7PZDN5xFCD9Bz2oYwcRf2tCjKPgHzyiasH6Mg","pct":1.0111494032422796,"amount":9908566.482186113,"insider":false,"label":null,"kind":null,"funder":null,"funderNote":"too active to trace","cluster":0},{"rank":20,"owner":"7xnoXDB7RjVaAwTZsFGUPTQ5t2JAq7MKNoVVu9jeCduT","account":"5wEnjZdHpeWGxrXALggdsxapMxuK5VVtAmyrqnAdaW8n","pct":0.9556940325817486,"amount":9365142.11262983,"insider":false,"label":null,"kind":null,"funder":"6nAeTBJATWNPb6DLKJ64Lq9yUnbu5LW5tj21LgL9EGWx","funderNote":null,"cluster":0}],"links":[{"source":"51yZyDSnec4xnUv7XLRVYcDyV4x3wUtzrDcRaYbmQU5j","target":"4xLpwxgYuPwPvtQjE94RLS4WZ4aD8NJYYKr2AJk99Qdg","why":"funded by this holder"}],"clusters":[{"wallets":["51yZyDSnec4xnUv7XLRVYcDyV4x3wUtzrDcRaYbmQU5j","4xLpwxgYuPwPvtQjE94RLS4WZ4aD8NJYYKr2AJk99Qdg"],"pct":19.07358267348879,"id":1}],"summary":{"top10Pct":42.2253017391216,"largestWalletPct":16.777356702508754,"poolPct":0,"insiderCount":0,"clusterCount":1,"largestClusterPct":19.07358267348879},"sharedBusy":[],"generatedAt":"2026-11-20T02:04:27.057Z"}</script>
+<script>
+(function () {
+  var D = JSON.parse(document.getElementById("data").textContent);
+  var NS = "http://www.w3.org/2000/svg";
+  var COLORS = ["#f2b84b", "#5fd0c5", "#f07c8a", "#9d8cf5", "#7fd36b", "#f29d5b", "#63a9f5", "#e88ad6"];
+  var colorOf = function (h) {
+    if (h.kind === "AMM") return "#4a5261";
+    if (h.cluster) return COLORS[(h.cluster - 1) % COLORS.length];
+    return "#c9ced8";
+  };
+  var shortAddr = function (a) { return a.slice(0, 4) + "…" + a.slice(-4); };
+  var fmtPct = function (n) { return n.toFixed(n < 1 ? 2 : 1) + "%"; };
+
+  document.title = D.symbol + " bubble map";
+  document.getElementById("title").textContent = D.name + " (" + D.symbol + ") holder bubble map";
+  document.getElementById("mint").textContent = D.mint;
+  var stats = [
+    ["Top 10 wallets", fmtPct(D.summary.top10Pct)],
+    ["Largest wallet", fmtPct(D.summary.largestWalletPct)],
+    ["In pools", fmtPct(D.summary.poolPct)],
+    ["Linked groups", String(D.summary.clusterCount)],
+    ["Largest group", D.summary.clusterCount ? fmtPct(D.summary.largestClusterPct) : "none"],
+    ["Holders", D.totalHolders == null ? "?" : Number(D.totalHolders).toLocaleString()]
+  ];
+  var statsEl = document.getElementById("stats");
+  stats.forEach(function (s) {
+    var span = document.createElement("span");
+    span.appendChild(document.createTextNode(s[0] + " "));
+    var b = document.createElement("b"); b.textContent = s[1]; span.appendChild(b);
+    statsEl.appendChild(span);
+  });
+
+  var svg = document.getElementById("map");
+  var W = 900, H = 640;
+  function size() { var r = svg.getBoundingClientRect(); W = Math.max(320, r.width); H = Math.max(320, r.height); svg.setAttribute("viewBox", "0 0 " + W + " " + H); }
+  size();
+
+  // Bubble area is proportional to share of supply, and all bubbles together cover
+  // about 40% of the canvas, whatever the distribution looks like.
+  var totalPct = D.holders.reduce(function (s, h) { return s + Math.max(h.pct, 0.001); }, 0) || 1;
+  function radius(h) { return Math.max(8, Math.sqrt((0.4 * W * H * Math.max(h.pct, 0.001)) / (Math.PI * totalPct))); }
+  var nodes = D.holders.map(function (h, i) {
+    var angle = (i / D.holders.length) * Math.PI * 2;
+    var spread = Math.min(W, H) / 4;
+    return { h: h, r: radius(h), x: W / 2 + Math.cos(angle) * spread, y: H / 2 + Math.sin(angle) * spread, vx: 0, vy: 0 };
+  });
+  var byOwner = {};
+  nodes.forEach(function (n) { byOwner[n.h.owner] = n; });
+  var links = D.links.map(function (l) { return { a: byOwner[l.source], b: byOwner[l.target], why: l.why }; }).filter(function (l) { return l.a && l.b; });
+
+  var gLinks = document.createElementNS(NS, "g"), gNodes = document.createElementNS(NS, "g");
+  svg.appendChild(gLinks); svg.appendChild(gNodes);
+  links.forEach(function (l) { l.el = document.createElementNS(NS, "line"); gLinks.appendChild(l.el); });
+  var tip = document.getElementById("tip");
+  var rowsEl = document.getElementById("rows");
+
+  function describe(h) {
+    var lines = [];
+    lines.push((h.label || "Wallet") + " · rank " + h.rank + " · " + fmtPct(h.pct));
+    if (h.cluster) lines.push("Linked group " + h.cluster);
+    if (h.insider) lines.push("Flagged as insider by RugCheck");
+    if (h.funder) lines.push("First funded by " + shortAddr(h.funder));
+    if (h.funderNote) lines.push(h.funderNote);
+    return lines;
+  }
+  function highlight(owner, on) {
+    nodes.forEach(function (n) { if (n.h.owner === owner) n.el.classList.toggle("on", on); });
+    Array.prototype.forEach.call(rowsEl.children, function (tr) { if (tr.dataset.owner === owner) tr.classList.toggle("on", on); });
+  }
+  function showTip(n, ev) {
+    tip.textContent = "";
+    describe(n.h).forEach(function (t, i) { var d = document.createElement("div"); d.textContent = t; if (i === 0) d.style.fontWeight = "600"; tip.appendChild(d); });
+    var a = document.createElement("div"); a.className = "a"; a.textContent = n.h.owner; tip.appendChild(a);
+    tip.style.display = "block";
+    tip.style.left = Math.min(window.innerWidth - 310, ev.clientX + 14) + "px";
+    tip.style.top = Math.min(window.innerHeight - 130, ev.clientY + 14) + "px";
+  }
+  var open = function (owner) { window.open("https://solscan.io/account/" + owner, "_blank", "noopener"); };
+
+  nodes.forEach(function (n) {
+    n.el = document.createElementNS(NS, "circle");
+    n.el.setAttribute("r", n.r); n.el.setAttribute("fill", colorOf(n.h));
+    n.el.addEventListener("mousemove", function (ev) { showTip(n, ev); highlight(n.h.owner, true); });
+    n.el.addEventListener("mouseleave", function () { tip.style.display = "none"; highlight(n.h.owner, false); });
+    // The svg captures the pointer for dragging, so the browser sends the click to the svg,
+    // not the bubble. A press and release without a drag opens the holder (see pointerup).
+    n.el.addEventListener("pointerdown", function (ev) { drag = n; n.moved = false; downAt = { x: ev.clientX, y: ev.clientY }; svg.setPointerCapture(ev.pointerId); });
+    gNodes.appendChild(n.el);
+    if (n.r > 17) { n.txt = document.createElementNS(NS, "text"); n.txt.setAttribute("class", "lbl"); n.txt.textContent = fmtPct(n.h.pct); gNodes.appendChild(n.txt); }
+
+    var tr = document.createElement("tr"); tr.className = "row"; tr.dataset.owner = n.h.owner;
+    var cells = [String(n.h.rank), null, fmtPct(n.h.pct), n.h.kind === "AMM" ? "pool" : n.h.cluster ? "group " + n.h.cluster : ""];
+    cells.forEach(function (text, i) {
+      var td = document.createElement("td");
+      if (i === 1) {
+        var dot = document.createElement("span"); dot.className = "dot"; dot.style.background = colorOf(n.h); td.appendChild(dot);
+        td.appendChild(document.createTextNode(n.h.label || shortAddr(n.h.owner)));
+        if (n.h.insider) { var tag = document.createElement("span"); tag.className = "tag"; tag.textContent = " insider"; td.appendChild(tag); }
+      } else { td.textContent = text; if (i === 2) td.className = "num"; if (i === 3) td.className = "tag"; }
+      tr.appendChild(td);
+    });
+    tr.addEventListener("mouseenter", function () { highlight(n.h.owner, true); });
+    tr.addEventListener("mouseleave", function () { highlight(n.h.owner, false); });
+    tr.addEventListener("click", function () { open(n.h.owner); });
+    rowsEl.appendChild(tr);
+  });
+
+  var drag = null, downAt = null;
+  function toSvg(ev) { var r = svg.getBoundingClientRect(); return { x: (ev.clientX - r.left) * (W / r.width), y: (ev.clientY - r.top) * (H / r.height) }; }
+  svg.addEventListener("pointermove", function (ev) {
+    if (!drag) return;
+    if (!drag.moved && Math.abs(ev.clientX - downAt.x) + Math.abs(ev.clientY - downAt.y) < 5) return; // a click, not a drag
+    var p = toSvg(ev); drag.x = p.x; drag.y = p.y; drag.vx = drag.vy = 0; drag.moved = true; heat = Math.max(heat, 0.3); });
+  svg.addEventListener("pointerup", function () { if (drag && !drag.moved) open(drag.h.owner); drag = null; });
+  svg.addEventListener("pointercancel", function () { drag = null; });
+  window.addEventListener("resize", function () {
+    size();
+    nodes.forEach(function (n) { n.r = radius(n.h); n.el.setAttribute("r", n.r); if (n.txt) n.txt.style.display = n.r > 17 ? "" : "none"; });
+    heat = 1;
+  });
+
+  // Small force layout: pull to centre, pull linked bubbles together, push overlaps apart.
+  var heat = 1;
+  function step() {
+    var i, j, a, b, dx, dy, dist, min, push;
+    for (i = 0; i < nodes.length; i++) {
+      a = nodes[i];
+      a.vx += (W / 2 - a.x) * 0.004 * heat; a.vy += (H / 2 - a.y) * 0.004 * heat;
+    }
+    for (i = 0; i < links.length; i++) {
+      a = links[i].a; b = links[i].b; dx = b.x - a.x; dy = b.y - a.y; dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      var want = a.r + b.r + 26, f = (dist - want) * 0.02 * heat;
+      a.vx += (dx / dist) * f; a.vy += (dy / dist) * f; b.vx -= (dx / dist) * f; b.vy -= (dy / dist) * f;
+    }
+    for (i = 0; i < nodes.length; i++) for (j = i + 1; j < nodes.length; j++) {
+      a = nodes[i]; b = nodes[j]; dx = b.x - a.x; dy = b.y - a.y; dist = Math.sqrt(dx * dx + dy * dy) || 0.01; min = a.r + b.r + 8;
+      if (dist < min) { push = (min - dist) / 2; dx /= dist; dy /= dist; a.x -= dx * push; a.y -= dy * push; b.x += dx * push; b.y += dy * push; }
+    }
+    for (i = 0; i < nodes.length; i++) {
+      a = nodes[i];
+      if (a !== drag) { a.x += a.vx; a.y += a.vy; }
+      a.vx *= 0.82; a.vy *= 0.82;
+      a.x = Math.max(a.r + 4, Math.min(W - a.r - 4, a.x)); a.y = Math.max(a.r + 4, Math.min(H - a.r - 4, a.y));
+      a.el.setAttribute("cx", a.x); a.el.setAttribute("cy", a.y);
+      if (a.txt) { a.txt.setAttribute("x", a.x); a.txt.setAttribute("y", a.y + 4); }
+    }
+    for (i = 0; i < links.length; i++) {
+      var l = links[i];
+      l.el.setAttribute("x1", l.a.x); l.el.setAttribute("y1", l.a.y); l.el.setAttribute("x2", l.b.x); l.el.setAttribute("y2", l.b.y);
+    }
+    heat = Math.max(0.02, heat * 0.992);
+    requestAnimationFrame(step);
+  }
+  step();
+})();
+</script>
+</body>
+</html>
